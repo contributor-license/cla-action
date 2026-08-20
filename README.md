@@ -4,7 +4,7 @@ CLA and DCO signing checks on pull requests. Contributors sign by commenting;
 signatures are stored as JSON **in your own repository**, not on anyone's server.
 
 Drop-in replacement for [`contributor-assistant/github-action`][archived], which
-was archived on 2026-08-06. Migration is a one-line change and your existing
+was archived on 2026-03-23. Migration is a one-line change and your existing
 signature file keeps working — nobody re-signs. See [Migrating](#migrating).
 
 [archived]: https://github.com/contributor-assistant/github-action

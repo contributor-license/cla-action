@@ -1,7 +1,7 @@
 # v1 compatibility spec
 
 v1 is a drop-in replacement for [`contributor-assistant/github-action`][archived]
-(archived 2026-08-06, Apache-2.0). A user migrates by changing one `uses:` line.
+(archived 2026-03-23, Apache-2.0). A user migrates by changing one `uses:` line.
 Their existing signature file keeps validating, and nobody re-signs.
 
 Everything below was read out of the archived source at `master`, not the README
