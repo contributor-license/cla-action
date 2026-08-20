@@ -1,0 +1,57 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*.*.*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Verify the tagged commit ships a current bundle
+        run: |
+          npm run lint
+          npx tsc --noEmit -p tsconfig.json
+          npm test
+          npm run build
+          if ! git diff --quiet --exit-code dist/; then
+            echo "::error::Tagged commit has a stale dist/. Refusing to release."
+            exit 1
+          fi
+
+      - name: Resolve version
+        id: v
+        run: |
+          FULL="${GITHUB_REF#refs/tags/}"
+          echo "full=$FULL"          >> "$GITHUB_OUTPUT"
+          echo "major=${FULL%%.*}"   >> "$GITHUB_OUTPUT"
+
+      # Consumers pin `uses: contributor-license/cla-action@v1`, so the major
+      # tag has to move to each new release within that major.
+      - name: Move the major tag
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -f "${{ steps.v.outputs.major }}" "${GITHUB_SHA}"
+          git push -f origin "${{ steps.v.outputs.major }}"
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ steps.v.outputs.full }}" \
+            --title "${{ steps.v.outputs.full }}" \
+            --generate-notes \
+            --verify-tag

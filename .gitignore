@@ -80,7 +80,10 @@ out
 
 # Nuxt.js build / generate output
 .nuxt
-dist
+# NOT ignored: a JS action ships its compiled bundle and action.yml points at
+# dist/index.js. Git cannot descend into an excluded directory, so this pattern
+# must stay removed rather than be negated below.
+# dist
 .output
 
 # Gatsby files

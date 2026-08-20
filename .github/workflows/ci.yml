@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npx tsc --noEmit -p tsconfig.json
+
+      - name: Test
+        run: npm test
+
+      # action.yml runs dist/index.js, not src/. A PR that edits src without
+      # rebuilding would ship stale code with green tests, so the bundle is
+      # rebuilt here and any difference fails the run.
+      - name: dist/ is up to date with src/
+        run: |
+          npm run build
+          if ! git diff --quiet --exit-code dist/; then
+            echo "::error::dist/ is stale. Run 'npm run build' and commit the result."
+            git diff --stat dist/
+            exit 1
+          fi
+          echo "dist/ matches src/"

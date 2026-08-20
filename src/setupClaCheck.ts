@@ -18,7 +18,7 @@ export async function setupClaCheck(): Promise<void> {
   if (!fileAndSha) return
   const { claFileContent, sha } = fileAndSha
 
-  let committerMap = prepareCommitterMap(committers, claFileContent)
+  const committerMap = prepareCommitterMap(committers, claFileContent)
 
   try {
     const reacted = await prCommentSetup(committerMap, committers)
