@@ -1,0 +1,33 @@
+name: Feature request
+description: Something the action should be able to do
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Anything that changes observable behaviour has to be opt-in, because
+        v1 is a drop-in replacement and existing users must not break.
+        Proposals that fit behind a new input are much easier to accept.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What are you trying to do that you cannot do today?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behaviour
+      description: If it needs a new input, name it and give its default.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: compat
+    attributes:
+      label: Compatibility
+      options:
+        - label: This is opt-in, or it does not change behaviour for existing users

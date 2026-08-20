@@ -1,0 +1,63 @@
+name: Bug report
+description: Something the action does that it should not, or does not do that it should
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Behaviour inherited from `contributor-assistant/github-action` is
+        replicated on purpose — see [SPEC.md](https://github.com/contributor-license/cla-action/blob/main/SPEC.md).
+        Worth a look before filing; several apparent bugs are deliberate.
+
+  - type: input
+    id: version
+    attributes:
+      label: Action version
+      description: The tag or SHA in your `uses:` line
+      placeholder: contributor-license/cla-action@v1
+    validations:
+      required: true
+
+  - type: dropdown
+    id: migrated
+    attributes:
+      label: Did you migrate from contributor-assistant/github-action?
+      options:
+        - "Yes, and this worked before migrating"
+        - "Yes, and it did not work before either"
+        - "No, this is a fresh setup"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you expected, and what happened instead
+    validations:
+      required: true
+
+  - type: textarea
+    id: workflow
+    attributes:
+      label: Your workflow file
+      description: The CLA job from your workflow. Redact anything sensitive.
+      render: yaml
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Run log
+      description: Output from the failing step. Redact tokens.
+      render: shell
+
+  - type: textarea
+    id: signatures
+    attributes:
+      label: Signature file
+      description: >
+        Structure only, if relevant. Replace real logins and ids with
+        placeholders — do not paste other people's identities.
+      render: json

@@ -1,0 +1,34 @@
+name: Compatibility break
+description: Behaves differently from contributor-assistant/github-action
+labels: [compatibility]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Drop-in compatibility is the point of v1, so these get priority.
+        Known deliberate divergences are listed in
+        [SPEC.md section 7](https://github.com/contributor-license/cla-action/blob/main/SPEC.md).
+
+  - type: input
+    id: original-version
+    attributes:
+      label: Version you migrated from
+      placeholder: contributor-assistant/github-action@v2.6.1
+    validations:
+      required: true
+
+  - type: textarea
+    id: difference
+    attributes:
+      label: The difference
+      description: What the original did, and what this does instead
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: How to reproduce
+      description: Inputs, event, and repository state needed to see it
+    validations:
+      required: true
