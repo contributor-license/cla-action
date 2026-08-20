@@ -147,3 +147,7 @@ vite.config.ts.timestamp-*
 *.key
 .dev.vars
 .env
+
+node_modules/
+lib/
+coverage/

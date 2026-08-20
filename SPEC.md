@@ -123,32 +123,34 @@ hosted service will carry, and it should stay true.
 
 ## 7. Deliberate divergences
 
-Anything here is a knowing break from the original and must be in release notes.
+**None in v1.** Behaviour is identical to the archived action, including its
+bugs. Drop-in is the v1 feature; anything that changes observable behaviour
+waits for v2 behind an opt-in input.
 
-### Allowlist wildcards get anchored — SECURITY
+### Allowlist wildcards stay unanchored
 
 `src/checkAllowList.ts` builds `new RegExp(escapeRegExp(pattern).split('\\*').join('.*'))`
-and calls `.test(committer)` with **no anchors**. So the pattern `bot*` compiles
-to `/bot.*/` and matches anywhere in the login:
+and calls `.test(login)` with no anchors, so a pattern matches anywhere in the
+login. This over-matches — but the over-match is load-bearing:
 
-| Pattern | Login | Original | v1 |
+| Pattern | Login | Unanchored (upstream + v1) | Anchored |
 | --- | --- | --- | --- |
-| `bot*` | `dependabot[bot]` | exempt | exempt |
-| `bot*` | `robot123` | **exempt** | must sign |
-| `bot*` | `mybotnet` | **exempt** | must sign |
+| `bot*` | `dependabot[bot]` | exempt | must sign |
+| `bot*` | `greenkeeper[bot]` | exempt | must sign |
+| `bot*` | `robot123` | exempt | must sign |
+| `bot*` | `botuser` | exempt | exempt |
 
-An unanchored allowlist silently exempts contributors who were meant to sign,
-which defeats the point of having a CLA at all. v1 anchors to `^...$`.
+The upstream README documents `allowlist: user1,bot*` for exempting bots.
+`bot*` only exempts `dependabot[bot]` *because* matching is unanchored —
+`dependabot[bot]` does not start with `bot`. Anchoring would require every
+migrating repo to rewrite the pattern as `*bot*`, and until they did, dependabot
+would be blocked on every pull request. Replicate exactly.
 
-This can change behaviour on migration, so: log loudly at runtime when a login
-matches unanchored-but-not-anchored, naming the pattern and the login, and
-document it as the one intentional behavioural break.
+Log a warning when a login matches only by over-match (matches unanchored but
+not anchored), naming pattern and login. Warning only — never changes the
+outcome.
 
-### Dead comparison dropped
-
-`checkAllowList` tests `isUserNotInAllowList !== undefined` — a function
-reference compared to undefined, always true. Reduces to the plain call. Also
-note the name is inverted: it returns true when the user **is** in the allowlist.
+Anchored semantics may arrive in v2 as `strict-allowlist: true`, default off.
 
 ## 8. Test corpus
 

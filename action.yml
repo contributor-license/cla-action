@@ -1,0 +1,51 @@
+name: "Contributor License"
+description: "Handle Contributor License Agreements (CLA) and the Developer Certificate of Origin (DCO) on pull requests"
+author: "Anthony Linsday"
+branding:
+  icon: "award"
+  color: blue
+
+inputs:
+  path-to-signatures:
+    description: "Path to the JSON file where signatures are stored"
+    default: "./signatures/cla.json"
+  branch:
+    description: "Branch the signature file lives on"
+    default: "master"
+  allowlist:
+    description: "Comma-separated logins exempt from signing. Supports * wildcards (anchored)."
+    default: ""
+  path-to-document:
+    description: "Fully qualified URL of the document to be signed"
+  remote-repository-name:
+    description: "Remote repository to store signatures in. Requires PERSONAL_ACCESS_TOKEN."
+  remote-organization-name:
+    description: "Remote organization to store signatures in. Requires PERSONAL_ACCESS_TOKEN."
+  signed-commit-message:
+    description: "Commit message when a contributor signs. Placeholders: $contributorName $pullRequestNo $owner $repo"
+  signed-empty-commit-message:
+    description: "Commit message when a contributor signs via empty commit"
+  create-file-commit-message:
+    description: "Commit message when the signature file is first created"
+  custom-notsigned-prcomment:
+    description: "Introductory message asking new contributors to sign"
+  custom-pr-sign-comment:
+    description: "The exact phrase a contributor comments to sign"
+  custom-allsigned-prcomment:
+    description: "Comment posted once every contributor has signed"
+  empty-commit-flag:
+    description: "Sign via an empty commit instead of a comment"
+    default: "false"
+  use-dco-flag:
+    description: "Use a DCO instead of a CLA"
+    default: "false"
+  lock-pullrequest-aftermerge:
+    description: "Lock the pull request after merge so signatures cannot be revoked"
+    default: "true"
+  suggest-recheck:
+    description: "Suggest commenting `recheck` in the action's comment"
+    default: "true"
+
+runs:
+  using: "node20"
+  main: "dist/index.js"
