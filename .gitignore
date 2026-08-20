@@ -1,0 +1,6 @@
+# This branch holds signature records only. Nothing else belongs here.
+*
+!.gitignore
+!README.md
+!signatures/
+!signatures/**
