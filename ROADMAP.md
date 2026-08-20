@@ -12,7 +12,7 @@ Backwards compatible. v1 is a drop-in replacement for
 `contributor-assistant/github-action`, and nothing in this section changes
 observable behavior unless you opt in.
 
-### Co-author signatures
+### Co-author signatures — [#3](https://github.com/contributor-license/cla-action/issues/3)
 
 `Co-authored-by:` trailers are not parsed today, so a co-author is never asked
 to sign and never appears in the signature file. They contributed code; they
@@ -21,7 +21,7 @@ should be covered.
 Inherited from upstream. Adding them changes who is asked to sign, so it lands
 behind an input first and becomes the default in v2.
 
-### Impersonation guard — `require-opener-as-author`
+### Impersonation guard — [#4](https://github.com/contributor-license/cla-action/issues/4)
 
 Git commit authorship is not authenticated. Anyone can set `user.email` to an
 address belonging to someone who has already signed, push, and open a pull
@@ -81,8 +81,8 @@ failing.
 The first release allowed to change defaults. Every change here exists in v1.x
 first as an opt-in input, so nothing arrives unannounced.
 
-- `require-opener-as-author` defaults to `true`
-- Co-author signatures required by default
+- `require-opener-as-author` defaults to `true` ([#4](https://github.com/contributor-license/cla-action/issues/4))
+- Co-author signatures required by default ([#3](https://github.com/contributor-license/cla-action/issues/3))
 - `strict-allowlist` — anchored wildcard matching. Today `bot*` matches anywhere
   in a login, so it exempts `robot123` as well as `dependabot[bot]`. Anchoring
   is correct but would require every migrating repository to rewrite the pattern
