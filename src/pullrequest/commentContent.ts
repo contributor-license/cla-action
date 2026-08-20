@@ -3,24 +3,31 @@ import * as input from '../shared/getInputs'
 import { getPrSignComment } from '../shared/prSignComment'
 
 /**
- * Bot markers. getComment() locates its own previous comment by these literals,
- * so they are part of the drop-in contract: change them and a migrating repo's
- * existing comment stops being found and a duplicate is posted.
+ * Marker written into every comment we post. getComment() locates the bot's
+ * previous comment by marker, so this string is load-bearing.
  */
-export const CLA_BOT_MARKER = 'CLA Assistant Lite bot'
-export const DCO_BOT_MARKER = 'DCO Assistant Lite bot'
+export const BOT_MARKER = 'Contributor License bot'
+
+/**
+ * Markers written by contributor-assistant/github-action. Matched on read only,
+ * never written. A repo migrating from that action has an existing comment
+ * carrying one of these; we find it, then rewrite it in place with BOT_MARKER,
+ * so the comment transitions to ours without ever duplicating.
+ */
+export const LEGACY_CLA_BOT_MARKER = 'CLA Assistant Lite bot'
+export const LEGACY_DCO_BOT_MARKER = 'DCO Assistant Lite bot'
 
 export function commentContent(signed: boolean, committerMap: CommitterMap): string {
   return input.getUseDcoFlag() == 'true' ? body('DCO', signed, committerMap) : body('CLA', signed, committerMap)
 }
 
 function body(kind: 'CLA' | 'DCO', signed: boolean, committerMap: CommitterMap): string {
-  const marker = kind === 'DCO' ? DCO_BOT_MARKER : CLA_BOT_MARKER
+  const marker = BOT_MARKER
   const docName = kind === 'DCO' ? 'Developer Certificate of Origin' : 'Contributor License Agreement'
 
   if (signed) {
     const line1 = input.getCustomAllSignedPrComment() || `All contributors have signed the ${kind}  ✍️ ✅`
-    return `${line1}<br/><sub>Posted by the ****${marker}****.</sub>`
+    return `${line1}<br/><sub>Posted by the **${marker}**.</sub>`
   }
 
   let committersCount = 1
@@ -67,10 +74,6 @@ function body(kind: 'CLA' | 'DCO', signed: boolean, committerMap: CommitterMap):
     text += '<sub>You can retrigger this bot by commenting **recheck** in this Pull Request. </sub>'
   }
 
-  // Upstream emits 4 asterisks in the DCO path and 2 in the CLA path here.
-  // Replicated verbatim; the locator regex tolerates either.
-  text += kind === 'DCO'
-    ? `<sub>Posted by the ****${marker}****.</sub>`
-    : `<sub>Posted by the **${marker}**.</sub>`
+  text += `<sub>Posted by the **${marker}**.</sub>`
   return text
 }

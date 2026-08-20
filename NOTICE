@@ -31,7 +31,11 @@ Stated per section 4(b) of the Apache License, Version 2.0.
   - Source ported to current @actions/* and @octokit/* releases.
   - Build tooling replaced; lodash, node-fetch and actions-toolkit dropped.
   - Test coverage extended with signature-file round-trip fixtures.
+  - Bot comments are marked "Contributor License bot" rather than "CLA/DCO
+    Assistant Lite bot". The original markers are still recognised on read so
+    that a repository migrating from the original transitions its existing
+    comment in place. See SPEC.md section 7.
 
-Observable behaviour is unchanged. v1 is a drop-in replacement and replicates
-the original exactly, including known bugs; see SPEC.md. Any future divergence
+Behaviour is otherwise unchanged. v1 is a drop-in replacement and replicates the
+original exactly, including known bugs; see SPEC.md. Any future divergence
 will be opt-in and recorded there and in the release notes.

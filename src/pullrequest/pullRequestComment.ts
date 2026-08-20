@@ -2,7 +2,12 @@ import { context } from '@actions/github'
 import { CommitterMap, CommittersDetails, ReactedCommitterMap } from '../interfaces'
 import { getDefaultOctokit } from '../octokit'
 import { getUseDcoFlag } from '../shared/getInputs'
-import { CLA_BOT_MARKER, DCO_BOT_MARKER, commentContent } from './commentContent'
+import {
+  BOT_MARKER,
+  LEGACY_CLA_BOT_MARKER,
+  LEGACY_DCO_BOT_MARKER,
+  commentContent
+} from './commentContent'
 import signatureWithPRComment from './signatureComment'
 
 export default async function prCommentSetup(
@@ -73,10 +78,19 @@ async function getComment() {
       repo: context.repo.repo,
       issue_number: context.issue.number
     })
-    const marker = getUseDcoFlag() === 'true' ? DCO_BOT_MARKER : getUseDcoFlag() === 'false' ? CLA_BOT_MARKER : null
-    if (!marker) return undefined
-    const re = new RegExp(`.*${marker}.*`, 'm')
-    return response.data.find((c: any) => c.body && re.test(c.body))
+    // Ours first, then the marker the archived action wrote in this mode, so a
+    // migrating repo's existing comment is adopted and rewritten in place.
+    const flag = getUseDcoFlag()
+    const legacy =
+      flag === 'true' ? LEGACY_DCO_BOT_MARKER : flag === 'false' ? LEGACY_CLA_BOT_MARKER : null
+    if (!legacy) return undefined
+
+    const matches = (body: string, marker: string) =>
+      new RegExp(`.*${marker}.*`, 'm').test(body)
+
+    return response.data.find(
+      (c: any) => c.body && (matches(c.body, BOT_MARKER) || matches(c.body, legacy))
+    )
   } catch (error: any) {
     throw new Error(`Error occured when getting  all the comments of the pull request: ${error.message}`)
   }

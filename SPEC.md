@@ -123,9 +123,32 @@ hosted service will carry, and it should stay true.
 
 ## 7. Deliberate divergences
 
-**None in v1.** Behaviour is identical to the archived action, including its
-bugs. Drop-in is the v1 feature; anything that changes observable behaviour
-waits for v2 behind an opt-in input.
+One, and it is cosmetic: the bot comment carries our marker instead of theirs.
+Everything else is identical to the archived action, including its bugs.
+
+### Bot comment marker
+
+`getComment()` locates the bot's own previous comment by a literal string in the
+body. Upstream writes and matches `CLA Assistant Lite bot` / `DCO Assistant Lite
+bot`.
+
+v1 **matches** ours *or* the mode-appropriate legacy marker, and **writes** only
+`Contributor License bot`.
+
+Migration is therefore in place and duplicate-free:
+
+| Run | Existing comment | Found by | Rewritten as |
+| --- | --- | --- | --- |
+| first after migrating | `CLA Assistant Lite bot` | legacy marker | `Contributor License bot` |
+| every run after | `Contributor License bot` | our marker | `Contributor License bot` |
+
+The legacy markers are read-only and must never be written. Dropping the legacy
+match would orphan the existing comment on every migrating repo and post a
+duplicate, so it stays until v1 adoption is no longer a concern.
+
+Upstream's 4-vs-2 asterisk inconsistency around the marker is not reproduced —
+we always write two. The locator regex tolerates either, so adopting a legacy
+comment written with four still works.
 
 ### Allowlist wildcards stay unanchored
 
