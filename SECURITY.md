@@ -60,7 +60,8 @@ the pull request never signed. The opener's identity, which GitHub does
 authenticate, is not consulted today.
 
 This is inherited from the original action. A `require-opener-as-author` guard
-is on the [roadmap](ROADMAP.md), opt-in first and default in v2. Until then, if
+is tracked in [#4](https://github.com/contributor-license/cla-action/issues/4),
+opt-in first and default in v2. Until then, if
 this matters for your project, review the commit authorship on pull requests
 from first-time contributors rather than relying on the check alone.
 
