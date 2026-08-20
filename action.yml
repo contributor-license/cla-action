@@ -1,5 +1,5 @@
 name: "Contributor License"
-description: "Handle Contributor License Agreements (CLA) and the Developer Certificate of Origin (DCO) on pull requests"
+description: "CLA and DCO signing checks on pull requests. Signatures stay in your own repository."
 author: "Anthony Linsday"
 branding:
   icon: "award"
