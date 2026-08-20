@@ -1,7 +1,6 @@
 import * as core from '@actions/core'
 
 const str = (name: string): string => core.getInput(name, { required: false })
-const bool = (name: string): boolean => str(name).toLowerCase() === 'true'
 
 export const getPathToSignatures = (): string => str('path-to-signatures')
 export const getBranch = (): string => str('branch')
@@ -15,10 +14,13 @@ export const getCreateFileCommitMessage = (): string => str('create-file-commit-
 export const getCustomNotSignedPrComment = (): string => str('custom-notsigned-prcomment')
 export const getCustomAllSignedPrComment = (): string => str('custom-allsigned-prcomment')
 export const getCustomPrSignComment = (): string => str('custom-pr-sign-comment')
-export const getEmptyCommitFlag = (): boolean => bool('empty-commit-flag')
-export const getUseDcoFlag = (): boolean => bool('use-dco-flag')
-export const lockPullRequestAfterMerge = (): boolean => bool('lock-pullrequest-aftermerge')
-export const suggestRecheck = (): boolean => bool('suggest-recheck')
+// Flags stay strings. getUseDcoFlag is tri-state upstream: 'true' => DCO,
+// 'false' => CLA, anything else => no signature ever matches. Coercing to
+// boolean would collapse that third branch. See SPEC.md section 2.
+export const getEmptyCommitFlag = (): string => str('empty-commit-flag')
+export const getUseDcoFlag = (): string => str('use-dco-flag')
+export const lockPullRequestAfterMerge = (): string => str('lock-pullrequest-aftermerge')
+export const suggestRecheck = (): string => str('suggest-recheck')
 
 export const isRemoteStorageConfigured = (): boolean =>
   Boolean(getRemoteRepoName() || getRemoteOrgName())
