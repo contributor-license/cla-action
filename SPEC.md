@@ -132,8 +132,35 @@ hosted service will carry, and it should stay true.
 
 ## 7. Deliberate divergences
 
-One, and it is cosmetic: the bot comment carries our marker instead of theirs.
-Everything else is identical to the archived action, including its bugs.
+Three. One cosmetic, two are upstream bugs on a code path that migrating repos
+never reach. Everything else is identical, including bugs that are reachable.
+
+### Missing signature file is created instead of erroring
+
+`setupClaCheck.ts` guards the create-on-missing path with
+`error.status === "404"` — a strict comparison of Octokit's **numeric** status
+against a **string**. It is never true, so a missing signature file falls
+through to `Could not retrieve repository contents. Status: 404` and the action
+fails instead of seeding the file.
+
+v1 compares numerically, so the file is created as the upstream README describes.
+
+Safe because the path is only reachable when the signature file does not exist.
+Any repo migrating from upstream necessarily has one, so this cannot change
+their behaviour — it only unbreaks first-time setup.
+
+### Signature file is seeded at two-space indent
+
+Upstream seeds it with `JSON.stringify(initialContent, null, 3)` while every
+subsequent write uses `2`, so the first signature silently reformatted the
+entire file. v1 seeds at `2`. Same unreachability argument as above.
+
+### addEmptyCommit is not ported
+
+`src/addEmptyCommit.ts` exists upstream but nothing imports or calls it — it is
+dead code. `empty-commit-flag` and `signed-empty-commit-message` are therefore
+inert; both inputs are still declared for compatibility. Omitting the module is
+behaviourally identical.
 
 ### Bot comment marker
 
