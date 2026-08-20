@@ -38,7 +38,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          # Signatures live on their own branch so that main can require pull
+          # requests. The action commits the signature file directly, which a
+          # protected branch would reject. Do not protect cla-signatures.
           path-to-signatures: signatures/version1/cla.json
           path-to-document: https://github.com/contributor-license/cla-action/blob/main/CLA.md
-          branch: main
+          branch: cla-signatures
           allowlist: dependabot[bot],bot*
