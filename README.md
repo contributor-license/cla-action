@@ -215,6 +215,12 @@ them would break repositories migrating across. All are tracked in
 | Only the first page of comments is read | On a long thread a signature comment can be missed. Comment `recheck` |
 | Committers are de-duplicated by login | A contributor who renames mid-pull-request can appear twice |
 
+## Roadmap
+
+[ROADMAP.md](ROADMAP.md) covers what is planned and in what order, including the
+fixes for the limitations above. Open an issue if something you need is missing
+from it.
+
 ## Contributing
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md). Contributions are accepted under the
