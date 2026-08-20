@@ -52,6 +52,18 @@ the branch is writable by the token.
 account that posted the signing comment. It is evidence that an authenticated
 account agreed, not proof of a legal identity behind that account.
 
+**Commit authorship is not authenticated, and this action does not currently
+compensate for that.** Git lets anyone set `user.email` to any address. If that
+address belongs to a GitHub account which has already signed, the commits
+resolve to that account and the check passes, even though the person who opened
+the pull request never signed. The opener's identity, which GitHub does
+authenticate, is not consulted today.
+
+This is inherited from the original action. A `require-opener-as-author` guard
+is on the [roadmap](ROADMAP.md), opt-in first and default in v2. Until then, if
+this matters for your project, review the commit authorship on pull requests
+from first-time contributors rather than relying on the check alone.
+
 ## Scope
 
 Reports about behavior deliberately inherited from

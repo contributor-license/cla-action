@@ -201,6 +201,20 @@ them would change behavior on migration. They are cataloged in
 | Only the first page of pull request comments is read | On a very long thread a signature comment can be missed. Comment `recheck` |
 | Committers are de-duplicated by login | A contributor who renames mid-pull-request can appear twice |
 
+## Known limitations
+
+Inherited from the original action and replicated on purpose, because changing
+them would break repositories migrating across. All are tracked in
+[ROADMAP.md](ROADMAP.md).
+
+| | Effect |
+| --- | --- |
+| Commit authorship is not verified against the pull request opener | Someone can open a pull request whose commits are attributed to a person who already signed, and the check passes without them signing. A `require-opener-as-author` guard is planned |
+| `Co-authored-by:` trailers are not parsed | Co-authors are never asked to sign |
+| Only the first 100 commits are inspected | Committers beyond that are not asked to sign. A warning is logged |
+| Only the first page of comments is read | On a long thread a signature comment can be missed. Comment `recheck` |
+| Committers are de-duplicated by login | A contributor who renames mid-pull-request can appear twice |
+
 ## Contributing
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md). Contributions are accepted under the
