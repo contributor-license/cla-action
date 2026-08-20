@@ -18,8 +18,8 @@ function target() {
   }
 }
 
-/** Upstream serialisation: 2-space indent, whole object preserved. */
-export function serialise(content: ClaFileContent): string {
+/** Upstream serialization: 2-space indent, whole object preserved. */
+export function serialize(content: ClaFileContent): string {
   return JSON.stringify(content, null, 2)
 }
 
@@ -38,7 +38,7 @@ export async function createFile(content: ClaFileContent) {
     path,
     branch,
     message: input.getCreateFileCommitMessage() || DEFAULT_CREATE_MESSAGE,
-    content: encode(serialise(content))
+    content: encode(serialize(content))
   })
 }
 
@@ -72,6 +72,6 @@ export async function updateFile(
     branch,
     sha,
     message: signedCommitMessage(pullRequestNo, context.issue.owner, context.issue.repo),
-    content: encode(serialise(claFileContent))
+    content: encode(serialize(claFileContent))
   })
 }

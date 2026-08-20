@@ -27,7 +27,7 @@ v1 is a drop-in replacement for `contributor-assistant/github-action`.
 real default, the comment protocol, and the complete list of intentional
 divergences.
 
-Before changing observable behaviour, check SPEC.md. Several apparent bugs are
+Before changing observable behavior, check SPEC.md. Several apparent bugs are
 replicated on purpose — unanchored allowlist wildcards, the 100-commit ceiling,
 the tri-state `use-dco-flag` — because a repository migrating from the original
 would break if they were "fixed". Divergences belong behind an opt-in input, in
@@ -35,7 +35,7 @@ SPEC.md, and in the release notes.
 
 Signature-format changes need a fixture round-trip test proving byte-identical
 output. Fixtures in `__tests__/fixtures/` mirror real files from public
-repositories with identities anonymised; keep them anonymised.
+repositories with identities anonymized; keep them anonymized.
 
 ## Pull requests
 
@@ -53,5 +53,5 @@ it. Testing against a pull request's own code belongs in `ci.yml`.
 ## Contribution terms
 
 Contributions are accepted under the [CLA](CLA.md). In short: you keep your
-copyright, and you grant a licence broad enough for the project to be offered
+copyright, and you grant a license broad enough for the project to be offered
 under separate commercial terms. Full text and the reasoning are in `CLA.md`.

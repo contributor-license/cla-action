@@ -32,7 +32,7 @@ Written by `src/persistence/persistence.ts`.
 
 - Top-level key is **`signedContributors`**. The whole file object is preserved
   on write — unknown sibling keys must round-trip untouched.
-- Serialised with `JSON.stringify(content, null, 2)` — **two-space indent**.
+- Serialized with `JSON.stringify(content, null, 2)` — **two-space indent**.
   Anything else produces a noisy diff on every signature and will get noticed.
 - Record shape is `CommittersDetails` (`src/interfaces.ts`). Only `name` and
   `id` are required; the rest are optional and must stay optional.
@@ -147,7 +147,7 @@ v1 compares numerically, so the file is created as the upstream README describes
 
 Safe because the path is only reachable when the signature file does not exist.
 Any repo migrating from upstream necessarily has one, so this cannot change
-their behaviour — it only unbreaks first-time setup.
+their behavior — it only unbreaks first-time setup.
 
 ### Signature file is seeded at two-space indent
 
@@ -229,13 +229,13 @@ Every one of the 491 records agreed on key order, field set and types — no
 exceptions, no variants.
 
 Fixtures in `__tests__/fixtures/` mirror that structure with identities
-anonymised. Real logins, user ids and comment ids are replaced; dates and pull
+anonymized. Real logins, user ids and comment ids are replaced; dates and pull
 request numbers are kept. There is no reason to republish contributors'
 identities into this test suite.
 
 Covered:
 
-1. Byte-identical re-serialisation of every fixture.
+1. Byte-identical re-serialization of every fixture.
 2. Append changes exactly the added record — no line removed, prefix unchanged.
 3. Two-space indent, no trailing newline.
 4. Unknown sibling keys and their order round-trip untouched.

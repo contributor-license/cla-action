@@ -5,7 +5,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Behaviour inherited from `contributor-assistant/github-action` is
+        Behavior inherited from `contributor-assistant/github-action` is
         replicated on purpose — see [SPEC.md](https://github.com/contributor-license/cla-action/blob/main/SPEC.md).
         Worth a look before filing; several apparent bugs are deliberate.
 

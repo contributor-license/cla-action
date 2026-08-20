@@ -2,11 +2,11 @@
  * Byte-level compatibility with files written by contributor-assistant/github-action.
  * Fixtures mirror real files from public repos (cozodb/cozo, NVIDIA/garak,
  * vendurehq/vendure, withfig/autocomplete, xibosignage/xibo,
- * Heroic-Games-Launcher/HeroicGamesLauncher) with identities anonymised.
+ * Heroic-Games-Launcher/HeroicGamesLauncher) with identities anonymized.
  */
 import * as fs from 'fs'
 import * as path from 'path'
-import { serialise } from '../src/persistence/persistence'
+import { serialize } from '../src/persistence/persistence'
 import { ClaFileContent, CommittersDetails } from '../src/interfaces'
 
 const fixture = (name: string): string =>
@@ -24,9 +24,9 @@ const newSignature = (): CommittersDetails => ({
 })
 
 describe('signature file round-trip', () => {
-  test.each(FIXTURES)('%s re-serialises byte-identically', name => {
+  test.each(FIXTURES)('%s re-serializes byte-identically', name => {
     const raw = fixture(name)
-    expect(serialise(JSON.parse(raw))).toBe(raw)
+    expect(serialize(JSON.parse(raw))).toBe(raw)
   })
 
   test.each(FIXTURES)('%s has no trailing newline', name => {
@@ -46,7 +46,7 @@ describe('signature file round-trip', () => {
     const before = content.signedContributors.length
 
     content.signedContributors.push(newSignature())
-    const after = serialise(content)
+    const after = serialize(content)
 
     const removed = raw.split('\n').filter(l => !after.split('\n').includes(l))
     expect(removed).toEqual([])
@@ -59,7 +59,7 @@ describe('signature file round-trip', () => {
     const raw = fixture('cla.extrakeys.json')
     const content: ClaFileContent = JSON.parse(raw)
     content.signedContributors.push(newSignature())
-    const out = JSON.parse(serialise(content))
+    const out = JSON.parse(serialize(content))
     expect(Object.keys(out)).toEqual(['schemaVersion', 'signedContributors', 'note'])
     expect(out.schemaVersion).toBe(1)
     expect(out.note).toBe('unknown sibling keys must round-trip untouched')
@@ -68,7 +68,7 @@ describe('signature file round-trip', () => {
   it('writes record keys in upstream order', () => {
     const content: ClaFileContent = JSON.parse(fixture('cla.empty.json'))
     content.signedContributors.push(newSignature())
-    const first = JSON.parse(serialise(content)).signedContributors[0]
+    const first = JSON.parse(serialize(content)).signedContributors[0]
     expect(Object.keys(first)).toEqual([
       'name', 'id', 'comment_id', 'created_at', 'repoId', 'pullRequestNo'
     ])
@@ -86,7 +86,7 @@ describe('signature file round-trip', () => {
     const content: ClaFileContent = JSON.parse(fixture('cla.small.json'))
     const namesBefore = content.signedContributors.map(s => s.name)
     content.signedContributors.push(newSignature())
-    const out = JSON.parse(serialise(content))
+    const out = JSON.parse(serialize(content))
     expect(out.signedContributors.map((s: CommittersDetails) => s.name))
       .toEqual([...namesBefore, 'newcomer'])
   })

@@ -8,7 +8,7 @@ or email anthony@linsday.net.
 
 Please do not open a public issue for a security problem.
 
-Expect an acknowledgement within a few days. Once a fix is available it ships in
+Expect an acknowledgment within a few days. Once a fix is available it ships in
 a patch release and the advisory is published with credit, unless you would
 rather not be named.
 
@@ -54,8 +54,8 @@ account agreed, not proof of a legal identity behind that account.
 
 ## Scope
 
-Reports about behaviour deliberately inherited from
+Reports about behavior deliberately inherited from
 `contributor-assistant/github-action` and documented in
 [SPEC.md](SPEC.md) — unanchored allowlist wildcards, the 100-commit ceiling, the
-single page of comments — are known and catalogued. They are still worth
+single page of comments — are known and cataloged. They are still worth
 reporting if you can show impact beyond what is described there.

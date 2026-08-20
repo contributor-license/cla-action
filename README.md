@@ -114,7 +114,7 @@ substring patterns, **not** anchored globs:
 | `bot*` | anything **containing** `bot` — `dependabot[bot]`, `greenkeeper[bot]`, and also `robot123` |
 | `*bot*` | same as above |
 
-`bot*` exempting `dependabot[bot]` depends on that substring behaviour —
+`bot*` exempting `dependabot[bot]` depends on that substring behavior —
 `dependabot[bot]` does not start with `bot`. This is inherited exactly, because
 anchoring it would silently start requiring signatures from bots in every
 migrating repository.
@@ -130,7 +130,7 @@ Set `use-dco-flag: true` and all wording switches to the
 phrase becomes `I have read the DCO Document and I hereby sign the DCO`.
 
 Note this signs via a pull request comment, not the conventional
-`Signed-off-by:` commit trailer. Inherited behaviour.
+`Signed-off-by:` commit trailer. Inherited behavior.
 
 > `use-dco-flag` is three-state, not boolean. `true` means DCO, `false` means
 > CLA, and **any other value means no comment ever counts as a signature**.
@@ -185,12 +185,12 @@ original:
 
 | | Original | Here |
 | --- | --- | --- |
-| Bot comment marker | `CLA Assistant Lite bot` | `Contributor License bot`. The old marker is still recognised, so existing comments are adopted rather than duplicated |
+| Bot comment marker | `CLA Assistant Lite bot` | `Contributor License bot`. The old marker is still recognized, so existing comments are adopted rather than duplicated |
 | Missing signature file | Failed with `Could not retrieve repository contents. Status: 404` — a status comparison bug meant the file was never seeded | Seeded, as the original documented. Only reachable when no signature file exists |
 | Seeded file indent | 3 spaces, reformatted to 2 on the first signature | 2 from the start. Same unreachable path |
 
 Everything else is replicated exactly, including known bugs, because changing
-them would change behaviour on migration. They are catalogued in
+them would change behavior on migration. They are cataloged in
 [`SPEC.md`](SPEC.md).
 
 ### Known inherited limits
@@ -206,7 +206,7 @@ them would change behaviour on migration. They are catalogued in
 See [`CONTRIBUTING.md`](CONTRIBUTING.md). Contributions are accepted under the
 [CLA](CLA.md) — this project checks its own pull requests with itself.
 
-## Licence
+## License
 
 [Apache-2.0](LICENSE). Derived from
 [`contributor-assistant/github-action`](https://github.com/contributor-assistant/github-action)

@@ -5,7 +5,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Anything that changes observable behaviour has to be opt-in, because
+        Anything that changes observable behavior has to be opt-in, because
         v1 is a drop-in replacement and existing users must not break.
         Proposals that fit behind a new input are much easier to accept.
 
@@ -20,7 +20,7 @@ body:
   - type: textarea
     id: proposal
     attributes:
-      label: Proposed behaviour
+      label: Proposed behavior
       description: If it needs a new input, name it and give its default.
     validations:
       required: true
@@ -30,4 +30,4 @@ body:
     attributes:
       label: Compatibility
       options:
-        - label: This is opt-in, or it does not change behaviour for existing users
+        - label: This is opt-in, or it does not change behavior for existing users

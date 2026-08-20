@@ -13,8 +13,8 @@
 
 <!--
 v1 is a drop-in replacement for contributor-assistant/github-action. If this
-changes observable behaviour, say so and explain why it cannot be opt-in.
+changes observable behavior, say so and explain why it cannot be opt-in.
 Update SPEC.md section 7 for any intentional divergence.
 -->
 
-- [ ] No observable behaviour change, or the change is opt-in and SPEC.md is updated
+- [ ] No observable behavior change, or the change is opt-in and SPEC.md is updated
