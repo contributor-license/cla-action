@@ -44,8 +44,11 @@ repositories with identities anonymised; keep them anonymised.
 - Sign the [CLA](CLA.md) by commenting on your pull request:
   `I have read the CLA Document and I hereby sign the CLA`
 
-This repository checks its own pull requests with its own action, so a broken
-change usually announces itself.
+This repository checks its own pull requests with its own action, pinned to the
+released `@v1` rather than the working tree. That workflow runs on
+`pull_request_target` with a write token, so it deliberately has no checkout
+step - see the warning at the top of `.github/workflows/cla.yml` before changing
+it. Testing against a pull request's own code belongs in `ci.yml`.
 
 ## Contribution terms
 

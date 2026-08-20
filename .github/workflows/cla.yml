@@ -1,5 +1,16 @@
-# Dogfood: this repository's own CLA check runs the action from this checkout,
-# so every pull request exercises the real code path end to end.
+# This repository gates its own pull requests with its own released action.
+#
+# SECURITY: pull_request_target runs with a write-scoped token and repository
+# secrets, in the context of the base branch. There is deliberately NO
+# actions/checkout step here and the action is referenced by release tag rather
+# than `uses: ./`.
+#
+# Do not add a checkout step. In particular never check out
+# `github.event.pull_request.head.sha` and run anything from it - that executes
+# a contributor's code with a write token, which is a full repository
+# compromise. If you want CI to run against a pull request's own code, that
+# belongs in ci.yml, which is triggered by `pull_request` and has no such
+# privileges.
 name: CLA
 
 on:
@@ -18,14 +29,12 @@ jobs:
   CLAAssistant:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-
       - name: CLA check
         if: |
           github.event_name == 'pull_request_target' ||
           github.event.comment.body == 'recheck' ||
           github.event.comment.body == 'I have read the CLA Document and I hereby sign the CLA'
-        uses: ./
+        uses: contributor-license/cla-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
