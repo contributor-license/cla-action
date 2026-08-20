@@ -7,7 +7,7 @@ export interface CommittersDetails {
   updated_at?: string
   comment_id?: number
   body?: string
-  repoId?: string
+  repoId?: number
 }
 
 /** Parsed signature file. Unknown sibling keys round-trip untouched. */

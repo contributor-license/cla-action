@@ -36,6 +36,15 @@ Written by `src/persistence/persistence.ts`.
   Anything else produces a noisy diff on every signature and will get noticed.
 - Record shape is `CommittersDetails` (`src/interfaces.ts`). Only `name` and
   `id` are required; the rest are optional and must stay optional.
+- **No trailing newline.** `JSON.stringify` does not add one and neither does
+  upstream.
+- Key order within a record is always
+  `name, id, comment_id, created_at, repoId, pullRequestNo`. It falls out of
+  insertion order in `signatureComment.ts`, where `body` is built then deleted.
+- `updated_at` and `body` are declared on the interface but **never persisted** —
+  `body` is deleted before write and `updated_at` is never set.
+- `repoId` is a **number**. Upstream's own interface declares `string`; every
+  real file disagrees, because it comes from `context.payload.repository.id`.
 - New signatures are **appended** (`signedContributors.push(...)`). Never sort,
   never rewrite existing entries.
 
@@ -177,12 +186,35 @@ Anchored semantics may arrive in v2 as `strict-allowlist: true`, default off.
 
 ## 8. Test corpus
 
-Compatibility is not a claim, it is a test. Before v1 ships:
+Verified against 491 real signatures pulled from six public repositories using
+the archived action:
 
-1. Real `signedContributors` files from public repos using the archived action,
-   committed as fixtures.
-2. Round-trip test: read fixture → append one signature → assert the diff is
-   exactly the added entry, byte for byte, including indentation.
-3. Every input at its default, then at its README-example value.
-4. Allowlist matrix from the table above.
-5. Both magic phrases, plus a custom `custom-pr-sign-comment`.
+| Repository | Path |
+| --- | --- |
+| `cozodb/cozo` | `signatures/version1/cla.json` |
+| `NVIDIA/garak` | `signatures/cla.json` |
+| `vendurehq/vendure` | `license/signatures/version1/cla.json` |
+| `withfig/autocomplete` | `cla/signatures.json` |
+| `xibosignage/xibo` | `contributors/cla-1.0.json` |
+| `Heroic-Games-Launcher/HeroicGamesLauncher` | `signatures/version1/cla.json` |
+
+Every one of the 491 records agreed on key order, field set and types — no
+exceptions, no variants.
+
+Fixtures in `__tests__/fixtures/` mirror that structure with identities
+anonymised. Real logins, user ids and comment ids are replaced; dates and pull
+request numbers are kept. There is no reason to republish contributors'
+identities into this test suite.
+
+Covered:
+
+1. Byte-identical re-serialisation of every fixture.
+2. Append changes exactly the added record — no line removed, prefix unchanged.
+3. Two-space indent, no trailing newline.
+4. Unknown sibling keys and their order round-trip untouched.
+5. Record key order matches upstream.
+6. `body` and `updated_at` never persisted.
+7. Append never sorts or rewrites existing entries.
+8. Allowlist matrix from section 7.
+9. Both sign phrases, DCO mode, the tri-state flag, and `custom-pr-sign-comment`.
+10. Bot comment marker adoption, legacy and current.

@@ -1,0 +1,68 @@
+{
+  "signedContributors": [
+    {
+      "name": "contributor1",
+      "id": 459282,
+      "comment_id": 1400000000,
+      "created_at": "2023-01-30T23:11:47Z",
+      "repoId": 551374215,
+      "pullRequestNo": 38
+    },
+    {
+      "name": "contributor2",
+      "id": 459283,
+      "comment_id": 1400000137,
+      "created_at": "2023-02-01T19:34:43Z",
+      "repoId": 551374215,
+      "pullRequestNo": 39
+    },
+    {
+      "name": "contributor3",
+      "id": 459284,
+      "comment_id": 1400000274,
+      "created_at": "2023-04-24T05:55:45Z",
+      "repoId": 551374215,
+      "pullRequestNo": 63
+    },
+    {
+      "name": "contributor4",
+      "id": 459285,
+      "comment_id": 1400000411,
+      "created_at": "2023-05-11T17:33:21Z",
+      "repoId": 551374215,
+      "pullRequestNo": 107
+    },
+    {
+      "name": "contributor5",
+      "id": 459286,
+      "comment_id": 1400000548,
+      "created_at": "2023-07-13T01:52:22Z",
+      "repoId": 551374215,
+      "pullRequestNo": 145
+    },
+    {
+      "name": "contributor6",
+      "id": 459287,
+      "comment_id": 1400000685,
+      "created_at": "2023-07-19T16:39:15Z",
+      "repoId": 551374215,
+      "pullRequestNo": 151
+    },
+    {
+      "name": "contributor7",
+      "id": 459288,
+      "comment_id": 1400000822,
+      "created_at": "2023-07-28T20:55:41Z",
+      "repoId": 551374215,
+      "pullRequestNo": 164
+    },
+    {
+      "name": "contributor8",
+      "id": 459289,
+      "comment_id": 1400000959,
+      "created_at": "2023-10-01T17:01:55Z",
+      "repoId": 551374215,
+      "pullRequestNo": 190
+    }
+  ]
+}
